@@ -1,21 +1,20 @@
-import { Button } from "@/components/ui/button"
 
-export function App() {
+import Header from './components/Header';
+import TokenLaunchPad from './components/TokenLaunchPad';
+
+export default function App() {
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
+    <div className="min-h-screen bg-[#09090b] text-zinc-100 pt-24 pb-12">
+      <Header />
+      <main className="max-w-3xl mx-auto px-2">
+        <div className="bg-zinc-900/50 border border-zinc-800  p-2 md:p-10 shadow-xl">
+          <h1 className="text-3xl font-extrabold text-white mb-2">Token Launchpad</h1>
+          <p className="text-zinc-400 mb-8">
+            Create your custom token on Solana Token-2022. Please ensure your metadata URI is valid.
+          </p>
+          <TokenLaunchPad />
         </div>
-        <div className="font-mono text-xs text-muted-foreground">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
-      </div>
+      </main>
     </div>
-  )
+  );
 }
-
-export default App

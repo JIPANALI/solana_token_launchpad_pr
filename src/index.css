@@ -4,6 +4,9 @@
 @import "@fontsource-variable/outfit";
 @import "@fontsource-variable/ibm-plex-sans";
 
+/* Core layout configuration for the Solana wallet suite */
+@import "@solana/wallet-adapter-react-ui/styles.css";
+
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -121,11 +124,315 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    }
+  }
   body {
-    @apply bg-background text-foreground;
-    }
+    @apply bg-background text-foreground antialiased;
+  }
   html {
     @apply font-sans;
-    }
+  }
+}
+
+/* ========================================================
+   SOLANA WALLET INTERFACE CORE OVERRIDES
+   ======================================================== */
+
+/* Main Connection Action Trigger Button */
+.wallet-adapter-button {
+  background: var(--card) !important;
+  color: var(--foreground) !important;
+  font-family: var(--font-sans) !important;
+  font-weight: 600 !important;
+  font-size: 0.85rem !important;
+  letter-spacing: -0.01em !important;
+  height: 42px !important;
+  padding: 0 16px !important;
+  border-radius: var(--radius-md) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.wallet-adapter-button:not([disabled]):hover {
+  background: var(--accent) !important;
+  border-color: var(--ring) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25) !important;
+}
+
+.wallet-adapter-button-start-icon {
+  width: 18px !important;
+  height: 18px !important;
+  margin-right: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.wallet-adapter-button-start-icon img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+}
+
+/* ========================================================
+   DIALOG POPUP MODAL ARCHITECTURE
+   ======================================================== */
+.wallet-adapter-modal-wrapper {
+  background: var(--background) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-xl) !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7) !important;
+  font-family: var(--font-sans) !important;
+  padding: 32px 24px 24px 24px !important;
+  max-width: 420px !important;
+}
+
+.wallet-adapter-modal-title {
+  color: var(--foreground) !important;
+  font-family: var(--font-heading) !important;
+  font-weight: 700 !important;
+  font-size: 1.35rem !important;
+  letter-spacing: -0.02em !important;
+  padding-bottom: 24px !important;
+}
+
+.wallet-adapter-modal-button-close {
+  background: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 6px !important;
+  top: 20px !important;
+  right: 20px !important;
+}
+
+.wallet-adapter-modal-button-close:hover {
+  background: var(--accent) !important;
+}
+
+/* ========================================================
+   MODAL TRACK WALLET ROW BUTTON FIXES
+   ======================================================== */
+.wallet-adapter-modal-list {
+  margin-top: 4px !important;
+  gap: 10px !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.wallet-adapter-modal-list .wallet-adapter-button {
+  background: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  width: 100% !important;
+  height: 50px !important;
+  padding: 0 16px !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: none !important;
+  
+  /* Reset direction alignment parameters */
+  flex-direction: row !important;
+  justify-content: flex-start !important;
+}
+
+.wallet-adapter-modal-list .wallet-adapter-button:hover {
+  background: var(--accent) !important;
+  border-color: var(--ring) !important;
+}
+
+.wallet-adapter-modal-list .wallet-adapter-button-start-icon {
+  width: 20px !important;
+  height: 20px !important;
+  margin-right: 12px !important;
+}
+
+/* CRITICAL POSITIONING FIX: Normalizes the library text wrapper nodes */
+.wallet-adapter-modal-list .wallet-adapter-button {
+  font-size: 0.9rem !important;
+  color: var(--foreground) !important;
+  font-weight: 600 !important;
+}
+
+/* CRITICAL FIX: Strips default boxed styling from the "Detected" tag */
+.wallet-adapter-modal-list .wallet-adapter-button span {
+  /* Kill absolute positions and stretching from the library */
+  position: static !important;
+  float: none !important;
+  transform: none !important;
+  height: auto !important;
+  width: auto !important;
+  line-height: 1 !important;
+  
+  /* Push badge cleanly to the right border edge */
+  margin-left: auto !important;
+  
+  /* Modern clean pill styling using theme tokens */
+  font-size: 0.725rem !important;
+  font-weight: 600 !important;
+  font-family: var(--font-sans) !important;
+  color: var(--muted-foreground) !important;
+  background: var(--muted) !important;
+  border: 1px solid var(--border) !important;
+  padding: 5px 10px !important;
+  border-radius: var(--radius-sm) !important;
+  letter-spacing: 0.01em !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+/* Expand option configurations */
+.wallet-adapter-modal-list-more {
+  color: var(--muted-foreground) !important;
+  font-family: var(--font-sans) !important;
+  font-size: 0.8rem !important;
+  font-weight: 500 !important;
+}
+
+/* ========================================================
+   CONNECTED DROPDOWN LIST CONFIGURATIONS
+   ======================================================== */
+.wallet-adapter-dropdown-list {
+  background: var(--popover) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  padding: 4px !important;
+  margin-top: 8px !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5) !important;
+}
+
+.wallet-adapter-dropdown-list-item {
+  font-family: var(--font-sans) !important;
+  font-size: 0.8rem !important;
+  font-weight: 500 !important;
+  color: var(--muted-foreground) !important;
+  padding: 8px 14px !important;
+  border-radius: var(--radius-sm) !important;
+}
+
+.wallet-adapter-dropdown-list-item:hover {
+  background: var(--accent) !important;
+  color: var(--foreground) !important;
+}
+
+
+
+/* TokenLaunchPad.css */
+
+.launchpad-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+}
+
+.glass-card {
+  background: rgba(10, 10, 12, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+  overflow: hidden;
+  width: 100%;
+
+}
+
+.glass-header {
+  background: linear-gradient(180deg, rgba(20, 20, 24, 0.8) 0%, rgba(10, 10, 12, 0) 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 1.5rem 1.75rem;
+}
+
+.input-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: #8a8a93;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.modern-input {
+  background: rgba(0, 0, 0, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #f4f4f5 !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+  height: 2.75rem !important;
+}
+
+.modern-input:focus {
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.3) !important;
+  outline: none !important;
+}
+
+.modern-input::placeholder {
+  color: #52525b !important;
+}
+
+.hide-number-spinner {
+  -moz-appearance: textfield;
+}
+.hide-number-spinner::-webkit-outer-spin-button,
+.hide-number-spinner::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.glow-button {
+  position: relative;
+  background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: white !important;
+  border-radius: 8px !important;
+  height: 3.25rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.025em !important;
+  overflow: hidden;
+  transition: all 0.3s ease !important;
+}
+
+.glow-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.5), 0 8px 10px -6px rgba(79, 70, 229, 0.3) !important;
+}
+
+.glow-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.success-panel {
+  background: rgba(16, 185, 129, 0.05);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-top: 1.5rem;
+  animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.mint-address-box {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
