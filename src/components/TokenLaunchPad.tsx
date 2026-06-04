@@ -167,7 +167,7 @@ const TokenLaunchPad = () => {
                     </p>
                 </div>
                 
-                <div className="p-6 space-y-5">
+                <div className="p-3 space-y-5">
                     <div className="grid grid-cols-2 gap-5">
                         <div>
                             <label className="input-label">Token Name</label>
